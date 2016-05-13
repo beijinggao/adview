@@ -1,0 +1,109 @@
+// **** 移动设备信息 ****
+  message Mobile {
+    // 新版移动设备序列号标识字段。允许同时存储多个序列号
+    message MobileID {
+        // 移动设备ID的类型
+        enum IDType {
+            // 未知
+            UNKNOWN = 0;
+            // IMEI
+            IMEI = 1;
+            // MAC地址
+            MAC = 2;
+        }
+        optional IDType type = 1; // 序列号类型
+        optional string id = 2;   // 序列号
+    }
+    repeated MobileID id = 13;
+
+    // 设备类型定义
+    enum MobileDeviceType {
+        UNKNOWN_DEVICE = 0;
+        HIGHEND_PHONE = 1;
+        TABLET = 2;
+    }
+    // 设备类型
+    optional MobileDeviceType device_type = 2;
+    // 移动平台名，例如android，iphone等等
+    enum OS {
+        UNKNOWN_OS = 0;
+        IOS = 1;
+        ANDROID = 2;
+        WINDOWS_PHONE = 3;
+    }
+    optional OS platform = 3 [default = UNKNOWN_OS];
+    // 移动操作系统版本号
+    // 例如 Android 2.1, major, micro分别是2,1
+    // 例如 Iphone 4.2.1，major, minor, micro分别是4,2,1
+    message DeviceOsVersion {
+        optional int32 os_version_major = 1;
+        optional int32 os_version_minor = 2;
+        optional int32 os_version_micro = 3;
+    };
+    optional DeviceOsVersion os_version = 4;
+    // 设备品牌
+    optional string brand = 5;
+    // 设备机型
+    optional string model = 6;
+    // 设备屏宽
+    optional int32 screen_width = 7;
+    // 设备屏高
+    optional int32 screen_height = 8;
+    // 运营商编号（MCC+MNC编号）
+    // 例如中国移动 46000
+    // 前三位是Mobile Country Code
+    // 后两位是Mobile Network Code
+    optional int64 carrier_id = 9;
+    // 无线网络类型
+    enum WirelessNetworkType {
+        UNKNOWN_NETWORK = 0;
+        WIFI = 1;
+        MOBILE_2G = 2;
+        MOBILE_3G = 3;
+        MOBILE_4G = 4;
+    }
+    optional WirelessNetworkType wireless_network_type = 10;
+
+    // 新版移动设备用户识别号字段，允许多种类型同时存在
+    // 推荐使用本字段获取用户ID，原字段会逐步废弃。
+    message ForAdvertisingID {
+        enum IDType {
+            UNKNOWN = 0;    // 未知
+            ANDROID_ID = 4; // Android适用
+            IDFA = 5;       // IOS适用
+        }
+        optional IDType type = 1; // ID类型
+        optional string id = 2; // ID内容
+    }
+    repeated ForAdvertisingID for_advertising_id = 14;
+
+    // **** 移动应用信息 ****
+    message MobileApp {
+        // 百度移动联盟为该App分配的app id
+        optional string app_id = 1;
+        // 如果来自苹果商店，则直接是app-store id
+        // 如果来自Android设备，则是package的全名
+        optional string app_bundle_id = 2;
+        // App应用分类
+        optional int32 app_category = 3;
+        // App开发者ID
+        optional int32 app_publisher_id = 4;
+        // App允许的交互类型定义
+        // 电话、下载
+        enum AppInteractionType {
+            TELEPHONE = 0;
+            DOWNLOAD = 1;
+        }
+        // App允许的交互类型
+        repeated AppInteractionType app_interaction_type = 5;
+		//App应用标题
+		optional string app_title = 6;
+		//App应用关键词
+		optional string app_keywords = 7;
+		//App是否收费
+		optional bool app_paid = 8;
+    }
+    // 移动应用信息，当流量来自App时该字段非空
+    optional MobileApp mobile_app = 12;
+  }
+

@@ -1,0 +1,130 @@
+message BidRequest{
+	message App{
+		required string app_name=1;
+		required string package_name=2;
+		required int32 category=3;
+		required string app_version=4;
+	}
+	message DeviceId{
+		required string device_id=1;
+		enum Device_Id_Type{
+			DEVICE_UNKNOWN = 0; //未知
+			IMEI = 1; //imei
+			IDFA = 2; //idfa
+			AAID = 3; //android id
+			MAC = 4; //mac
+			IDFV = 5; //idfv
+			M2ID = 6; //
+			SERIALID = 7; //
+			IMSI = 8; //imsi
+		}
+		required Device_Id_Type device_id_type=2;
+		enum Hash_Type{
+			NONE = 0; //未加密
+			MD5 = 1; //MD5加密
+			SH1 = 2; //SH1加密
+			OTHER = 3; //其他加密	
+		}
+		required Hash_Type hash_type=3;
+	}
+	message Device{
+		repeated DeviceId device_id=1;
+		enum OS_Type{
+			OS_UNKNOWN = 0; //未知
+			OS_IOS = 1;
+			OS_ANDROID = 2;
+			OS_WP = 3; //windows
+		}
+		required OS_Type os_type=2;
+		required string os_version=3;
+		required string brand=4;
+		required string model=5;
+		enum Device_Type{
+			UNKNOWN = 0; //未知
+			TABLET = 1; //平板
+			PHONE = 2; //手机			
+		}
+		optional Device_Type device_type=6;
+		required int32 screen_width=7;
+		required int32 screen_height=8;
+		required double screen_density=9;
+		enum Screen_Orientation{
+			SCREEN_ORIENTATION_UNKNOWN = 0; //未知
+			SCREEN_ORIENTATION_PORTRAIT = 1; //竖屏
+			SCREEN_ORIENTATION_LANDSCAPE = 2; //横屏
+		}
+		optional Screen_Orientation screen_orientation=10;
+		enum Carrier_Id{
+			CARRIER_UNKNOWN = 0; //未知
+			CHINA_MOBILE = 70120; //中国移动
+			CHINA_TELECOM = 70121; //中国电信
+			UNICOM = 70123; //中国联通
+			
+		}
+		required Carrier_Id carrier_id=11;
+	}
+	message Adspaces{
+		required string adspace_id=1;
+		enum Adspace_Type{
+			BANNER = 1; //横幅
+			INTERSTITIAL = 2; //插屏
+			VIDEO = 3; //视频
+			NATIVE = 4; //信息流
+			EMBEDDED = 5; //嵌入式
+			OPENING = 6; //开屏
+			FOCUS = 7; //焦点图
+		}
+		required Adspace_Type adspace_type=2;
+		enum Adspace_Position{
+			NONE = 0; //未知
+			FIRST_POS = 1; //首屏
+			OTHERS = 2; //非首屏
+		}
+		optional Adspace_Position adspace_position=3;
+		required bool allowed_html=4;
+		required int32 width=5;   //广告位尺寸事先无法确定：Y	广告位宽度	320
+		required int32 height=6; //广告位尺寸事先无法确定：Y	广告位高度	50
+		required int32 impression_num=7;	//广告位请求多个创意：Y	广告位请求的创意个数，默认只会返回一个创意	2
+		optional string keywords=8;	//广告位所在页面的关键词信息，多个关键词使用“,”号分隔	念念,夺命旅行,疯狂外星人,冲锋车
+		optional string channel=9;	//广告位所在的频道页	动漫
+		enum Open_Type{
+			ALL = 0; //内开、外开都支持
+			INNER = 1; //内开，由媒体WebView打开
+			OUTER = 2; //外开，由浏览器打开
+		}
+		required Open_Type open_type=10; //广告位允许的落地页打开类型
+		enum Interaction_Type{
+			ANY = 0; //任何一种
+			NO_INTERACTION = 1; //不交互
+			BROWSE= 2; //浏览
+			DOWNLOAD = 3; //下载
+			DIALING = 4; //电话
+			MESSAGE = 5; //短信
+			MAIL = 6; //邮件
+		}
+		repeated Interaction_Type interaction_type=11; //广告位允许的交互类型
+	}
+		
+	required string bid=1;
+	required App app=2;
+	required Device device=3;
+	repeated Adspaces adspaces=4;
+	required string uid=5;
+	required string ip=6;
+	required string user_agent=7;
+	
+	enum Network_Type{
+		NET_UNKNOWN = 0; //未知
+		NET_WIFI = 1; //wifi 
+		NET_2G =2 ; //2G 
+		NET_3G =3 ; //3G 
+		NET_4G = 4; //4G
+	}
+	
+	required Network_Type network_type=8;
+	
+	optional double longitude=9;		//地理位置-经度（小数点格式）	115.234521
+	optional double latitude=10;		//地理位置-纬度（小数点格式）	60.323456
+	
+}
+

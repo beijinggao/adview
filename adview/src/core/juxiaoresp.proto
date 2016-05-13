@@ -1,0 +1,80 @@
+message BidResponse{
+	message InteractionObject{
+		required string url=1; //浏览或者下载类广告：Y	落地页地址	http://www.360.cn
+		optional string deeplink=2; //deeplink地址	
+		required string phone=3; //电话或者短信类广告：Y	目的电话号码	18809872721
+		required string mail=4; //邮件类广告：Y	目的邮箱地址	xxx@360.cn
+		required string msg=5; //短信或者邮件类广告：Y	内容	欢迎访问360移动广告平台！
+	}
+	message Img{
+		required string url=1;//图片的url	
+		required int32 width=2; //图片的宽	
+		required int32 height=3; //图片的高
+	}
+	message Title{
+		required string text=1;
+	}
+	enum Event_Type{
+		SHOW = 1; //曝光监测
+		CLICK = 2; //素材点击监测
+		OPEN = 3; //对于弹框类广告，用户点击素材后，判断用户是否已经安装了广告主APP，如果已安装，则直接打开APP并回传“打开”的监测，不再弹框
+		BEGIN_DOWNLOAD = 4; //对于弹框类广告，如果用户点击了确认下载，则回传开始下载的监控
+		DOWNLOAD=5; //对于弹框类广告，如果用户没有安装广告主APP，在下载完成后回传“下载完成”的监测
+		INSTALL = 6; //对于弹框类广告，下载完成后引导用户安装，安装完成后回传“安装完成”的监测
+		ACTIVE = 7; //对于弹框类广告，安装完成后如果用户打开APP则回传“激活”的监测
+	}
+	message EventTrack{
+		required Event_Type event_type=1;//事件类型
+		repeated string notify_url=2; //事件url，HTTP GET请求，可能为空，发送前请判断
+	}
+	message Native{
+		required Img img=1; //一般情况下：Y	Img对象，360服务器返回的图片的详细信息	
+		required Title title=2; //一般情况下：Y	Title对象，360服务器返回的标题的详细信息	
+		required string logo=3; //一般情况下：Y	logo url	
+		required string desc=4; //一般情况下：Y	描述
+	}
+	
+	message Adm{
+		required string source=1;	//图片素材或者html素材：Y	360服务器返回图片素材或者html素材，如果Creative. adm_type值为0或1，该字段会被填充，否则不会被填充	
+		required Native native=2; //原生素材：Y	Native对象，360服务器返回原生素材，如果Creative. adm_type值为3，该字段会被填充，否则不会被填充
+	}
+	
+	message Creative{
+		required int32 banner_id=1;	//创意id	1029837
+		required int32 adspace_slot_seq=2;	//广告位请求多条创意：Y	广告位槽位id，如果广告位请求多条创意，360服务器会对返回的多条创意进行编号，从1开始
+		enum Open_Type{
+			ALL = 0; //内开、外开由媒体决定
+			INNER = 1; //内开，由媒体WebView打开
+			OUTER = 2; //外开，由浏览器打开
+		}	
+		required Open_Type open_type=3; //落地页打开类型
+		enum  Interaction_Type{
+			ANY = 0; //任何一种
+			NO_INTERACTION = 1; //不交互
+			BROWSE= 2; //浏览
+			DOWNLOAD = 3; //下载
+			DIALING = 4; //电话
+			MESSAGE = 5; //短信
+			MAIL = 6; //邮件	
+		}
+		required Interaction_Type interaction_type=4;//非html类素材：Y	交互类型
+		required InteractionObject interaction_object=5;//非html类素材：Y	InteractionObject对象，用于描述与用户交互动作，跟interaction_type相对应	
+		required string package_name=6;	//下载类广告：Y	广告的APP的包名	com.qihoo.video
+		enum Adm_Type{
+			PIC = 0; //图片素材
+			HTML = 1; //html素材
+			NATIVE = 3; //原生素材			
+		}
+		required Adm_Type adm_type=7;	//广告素材类型
+		required Adm adm=8; //广告素材对象	
+		repeated EventTrack event_track=9; //EventTrack对象列表，用于各种事件的追踪
+		
+	}
+	message Ads{
+		required string adspace_id=1;//标记该广告对应的广告位id	5kLFGJ5S3J
+		repeated Creative creative=2;//Creative对象列表，360服务器返回的创意列表。如果广告位请求多个创意，那么360服务器会填充多个创意	
+	}
+	required string bid=1;	//填充BidRequest中的bid，32字节的字符串	
+	repeated Ads ads=2;
+}
+

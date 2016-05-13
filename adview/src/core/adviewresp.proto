@@ -1,0 +1,37 @@
+message AdResponse{
+	message Ad{
+		message Native{
+			required string request=1;
+			required string ver=2;
+			repeated int32 api=3;
+			repeated int32 battr=4;
+		}
+		required string impid=1;
+		optional int32 price=2;
+		optional string pmd=3;
+		optional string adid=4;
+		optional int32 admt=5;
+		optional string adm=6;
+		optional Native native=7;
+		optional string adi=8;
+		optional string adt=9;
+		optional string ads=10;
+		optional int32 adw=11;
+		optional int32 adh=12;
+		optional int32 adct=13;
+		optional int32 adtm=14;
+		optional int32 ade=15;
+		optional string adurl=16;
+		optional string adomain=17;
+		repeated string nurl=18;
+		repeated string curl=19;
+		optional string cid=20;
+		optional string crid=21;
+		repeated string attr=22;
+	}
+	
+	required string id=1;
+	repeated Ad ads=2;
+	optional string reqid=3;
+	optional string cur=4;
+}

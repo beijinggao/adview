@@ -1,0 +1,90 @@
+message AdRequest{
+    required string id =1;
+
+    message Impression{
+        required string id = 1;
+        message Banner{
+            required int32 w = 1;
+            required int32 h =2;
+            optional int32 pos = 3;
+            repeated int32 btype =4;
+        }
+	message Native{
+		required string request=1;
+		required string ver=2;
+		repeated int32 api=3;
+		repeated int32 battr=4;
+	}
+        required Banner banner =2;
+        required int32 instl =3;
+	optional Native native=4;
+        optional int32 bidfloor=5;
+        optional string bidfloorcur =6;
+    }
+    repeated Impression imp = 2;
+    
+    message App{
+	required string id=1;
+	required string name=2;
+	optional string domain=3;
+	repeated int32 cat=4;
+	optional string ver=5;
+	required string bundle=6;
+	optional int32 paid =7;
+	optional string keywords=8;
+	optional string storeurl=9;
+    }
+    required App app =3;
+
+    message Geo{
+                optional float lat=1;
+                optional float lon=2;
+                optional int32 timestamp=3;
+                optional string country=4;
+                optional string region=5;
+                optional string city=6;
+                optional int32 type=7;
+    }
+
+    message Device{
+	required int32 dnt=1;
+	required string ua=2;
+	required string ip=3;
+	required Geo geo=4;
+	optional string did=5;
+	optional string dpid=6;
+	required string mac=7;
+	optional string ipv6=8;
+	required string carrier=9;
+	optional string language=10;
+	required string make=11;
+	required string model=12;
+	required string os=13;
+	required string osv=14;
+	optional int32 js=15;
+	required int32 connectiontype=16;
+	required int32 devicetype=17;
+	optional float s_density=18;
+	required int32 sw=19;
+	required int32 sh=20;
+	optional int32 orientation=21;
+    }
+    required Device device =4;
+
+    message User{
+	required string id=1;
+	optional int32 yob=2;
+	optional string gender=3;
+	optional string keywords=4;
+	optional Geo geo=5;
+    }
+
+    optional User user =5;
+
+    optional int32 at =6;
+    optional int32 tmax = 7;
+    repeated string weat = 8;
+    repeated string cur = 9;
+    repeated string bcat = 10;
+    repeated string badv = 11;
+}
